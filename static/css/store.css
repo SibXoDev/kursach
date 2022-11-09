@@ -1,0 +1,162 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.content h1 a {
+    color: rgb(159, 221, 255);
+    text-decoration: underline;
+}
+.content h1 a:hover {
+    color: #fff;
+}
+
+.tooltip::after {
+    content: attr(info);
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    color: #ddd;
+    font-size: 12px;
+    padding: .4em .8em;
+    background: rgb(38, 39, 43);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
+    pointer-events: none;
+    transform-origin: bottom;
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0);
+    letter-spacing: .06em;
+    transition: .2s;
+    z-index: 9999999;
+}
+.tooltip:hover::after{
+    opacity: 1;
+    transform: translate(-50%, -5px) scale(1);
+}
+
+.content-header {
+    display: flex;
+    gap: 10px;
+}
+.content-header input {
+    width: 100%;
+}
+.content-header button {
+    padding: .8em 1.2em;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-auto-rows: max-content;
+    gap: 0;
+    row-gap: 15px;
+    transition: none;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 5px;
+    background: #1d1e22;
+    box-shadow: 0 3px 5px var(--color-shadow-block);
+    margin-right: 15px;
+    /* perspective: 250px; */
+    overflow: hidden;
+    transition: .2s;
+    cursor: pointer;
+}
+.card:hover {
+    transform: scale(1.1);
+}
+.card--shadow {
+    position: absolute;
+    filter: blur(10px);
+    overflow: hidden;
+    border-radius: 10px;
+    pointer-events: none;
+    transition: .2s;
+}
+.card img {
+    /* position: absolute; */
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .2);
+}
+.card--favorites::after,
+.card--acquired::after {
+    position: absolute;
+    font-size: 12px;
+    letter-spacing: .05em;
+    left: 10px;
+    top: 10px;
+    padding: .4em 1em;
+    background: rgba(0, 0, 0, .2);
+    border: 2px solid rgba(255, 255, 255, .1);
+    border-radius: 10px;
+    backdrop-filter: blur(3px);
+    transition: .2s;
+}
+.card--acquired::after {
+    content: "В библиотеке";
+}
+.card--favorites::after {
+    content: "В избранном";
+}
+.card--favorites:hover::after
+.card--acquired:hover::after {
+    opacity: 0;
+}
+.card p {
+    text-align: center;
+    letter-spacing: .04em;
+    pointer-events: none;
+    padding: 10px;
+    margin: 0;
+}
+
+@media screen and (min-width: 1360px) {
+    .card-container {
+        grid-template-columns: 20% 20% 20% 20% 20%;
+    }
+    .card:nth-child(5n) {
+        margin-right: 0;
+    }
+}
+@media screen and (min-width: 720px) and (max-width: 1360px) {
+    .card-container {
+        grid-template-columns: 25% 25% 25% 25%;
+    }
+    .card:nth-child(4n) {
+        margin-right: 0;
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 720px) {
+    .card-container {
+        grid-template-columns: 33.3% 33.3% 33.3%;
+    }
+    .card:nth-child(3n) {
+        margin-right: 0;
+    }
+}
+@media screen and (max-width: 600px) {
+    .card-container {
+        grid-template-columns: 50% 50%;
+    }
+    .card:nth-child(2n) {
+        margin-right: 0;
+    }
+}
+@media screen and (max-width: 480px) {
+    .card-container {
+        grid-template-columns: 100%;
+    }
+    .card {
+        margin-right: 0;
+    }
+}

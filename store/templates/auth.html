@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аутентификация</title>
+    {% load static %}
+    <!-- <link rel="icon" href="img/favicon.png" type="image/x-icon"/> -->
+    <link rel="stylesheet" href="{% static 'css/SXDAPI.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app_white_theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth_white_theme.css' %}">
+    <script defer src="{% static 'js/SXDAPI.min.js' %}"></script>
+    <script defer src="{% static 'js/main.js' %}"></script>
+    <script defer src="{% static 'js/auth.js' %}"></script>
+</head>
+<body class="load">
+    <a href="/">SXDStore</a>
+    <form id="login" method="post" action="/auth/">
+        {% csrf_token %}
+        <h1>Вход</h1>
+        <input type="text" name="username" placeholder="Логин" autocomplete="off">
+        <input type="password" name="password" placeholder="Пароль" autocomplete="off">
+        <button type="submit" disabled>Войти</button>
+        <button type="button">Зарегистрироваться</button>
+    </form>
+    <form class="hide" id="register" method="post" action="/auth/">
+        {% csrf_token %}
+        <h1>Регистрация</h1>
+        <input type="text" name="username" placeholder="Логин" autocomplete="off">
+        <input type="password" name="password1" placeholder="Пароль" autocomplete="off">
+        <button type="submit" disabled>Зарегистрироваться</button>
+        <button type="button">Войти</button>
+    </form>
+</body>
+</html>

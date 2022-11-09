@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Изменение игры{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/game_create.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="content">
+        <form id="create-game" enctype="multipart/form-data" action="" method="POST">
+            {% csrf_token %}
+            <input type="text" name="name" value="{{ game.name }}" placeholder="Название" required>
+            <textarea name="description" placeholder="Описание" required>{{ game.description }}</textarea>
+            <input type="date" name="release_date" id="release_date" value="{{ game.release_date|date:"Y-m-d" }}" placeholder="Дата релиза" autocomplete="off" required>
+            <input type="number" min="0" name="price" value="{{ game.price }}" placeholder="Цена" required>
+            <input type="file" name="preview" id="preview">
+            <label for="preview">
+                <h1>Заставка игры</h1>
+                <img id="preview-img" src="/media/{{ game.preview }}">
+            </label>
+            <div id="create-sys-req">
+                <h1>Минимальные системные требования</h1>
+                <input type="text" name="os" placeholder="ОС" value="{{ sys_req.os }}" required>
+                <input type="text" name="cpu" placeholder="Процессор" value="{{ sys_req.cpu }}" required>
+                <input type="number" name="ram" placeholder="ОЗУ" value="{{ sys_req.ram }}" required>
+                <input type="text" name="gpu" value="{{ sys_req.gpu }}" placeholder="Видеокарта">
+                <input type="number" name="disk_space" placeholder="Место на диске" value="{{ sys_req.disk_space }}" required>
+            </div>
+            <button type="submit">Изменить</button>
+        </form>
+    </div>
+</div>
+<script>
+    window.addEventListener("load", () => {
+        const preview = document.querySelector("#preview-img");
+        const bt = document.querySelector("button");
+        const form = document.querySelector("form");
+        const inputs = [...document.querySelectorAll("input"), ...document.querySelectorAll("textarea")];
+        
+        let imgUrl = "/media/{{ game.preview }}";
+
+        document.querySelector("#preview").onchange = function(e) {
+            const [file] = this.files;
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+            } else {
+                preview.src = imgUrl;
+            };
+        };
+
+        bt.disabled = false;
+        bt.onclick = () => {
+            let valid = true; 
+
+            inputs.forEach(input => {
+                if (!input.value && input.required) {
+                    input.classList.add("check-input");
+                    valid = false;
+                };
+            });
+
+            bt.disabled = true;
+
+            if (valid) {
+                SXDAPI.connect("", "", {
+                    method: "POST",
+                    mode: "same-origin",
+                    credentials: "same-origin",
+                    cache: "default",
+                    headers: {
+                        "Accept": "application/json"
+                    },
+                    body: new FormData(form)
+                },
+                (result) => {
+                    if (result.hasOwnProperty("edit") && result.edit) {
+                        inputs.forEach(input => {
+                            if (input.type !== "hidden") input.classList.remove("check-input");
+                        });
+
+                        SXDAPI.description.show({
+                            text: "Измененения внесены!",
+                            color: "rgb(0, 220, 0)"
+                        });
+
+                        imgUrl = result.img_url;
+                    } else {
+                        SXDAPI.description.show({
+                            text: "Произошла ошибка на сервере!",
+                            color: "rgb(220, 0, 0)"
+                        });
+                    };
+
+                    bt.disabled = false;
+                },
+                (error) => {
+                    SXDAPI.description.show({
+                        text: "Произошла ошибка!",
+                        color: "rgb(220, 0, 0)"
+                    });
+                    bt.disabled = false;
+                }, true);
+            } else {
+                SXDAPI.description.show({
+                    text: "Заполните все поля!",
+                    color: "rgb(220, 0, 0)"
+                });
+                bt.disabled = false;
+            };
+
+            return false;
+        };
+
+        inputs.forEach(input => {
+            input.addEventListener("change", function () {
+                this.classList.remove("check-input");
+            });
+        });
+    });
+</script>
+{% endblock %}

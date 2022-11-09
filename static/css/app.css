@@ -1,0 +1,224 @@
+:root {
+    --color-bg-block: #1d1e22;
+    --color-shadow-block: rgba(0, 0, 0, .2);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #17181c;
+    user-select: none;
+}
+
+svg {
+    fill: #ccc;
+    stroke: #ccc;
+    width: 16px;
+    height: 16px;
+    transition: .2s;
+}
+
+img {
+    width: 100%;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 10px;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    background: var(--color-bg-block);
+    letter-spacing: .04em;
+}
+input::placeholder,
+textarea::placeholder {
+    color: #4a4b53;
+}
+input[type="checkbox"] {
+    display: none;
+}
+input[type="checkbox"] + label,
+.indicator,
+.indicator-correct,
+.indicator-error,
+.indicator-warning {
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    border-radius: 10px;
+    padding: .4em .8em;
+    background: var(--color-bg-block);
+    color: #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
+    border: 2px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+    letter-spacing: .04em;
+    transition: .2s;
+}
+.indicator {
+    border-color: #4a4b53;
+}
+input[type="checkbox"]:checked + label,
+.indicator-active {
+    color: #fff;
+    border-color: #007add;
+}
+input[type="checkbox"] + label:hover {
+    color: #fff;
+    box-shadow: 0 2px 5px 1px #007add;
+}
+.indicator-correct {
+    color: #fff;
+    border-color: #27d118;
+}
+.indicator-warning {
+    color: #fff;
+    border-color: #ff7b00;
+}
+.indicator-error {
+    color: #fff;
+    border-color: #dd3838;
+}
+
+.none-transition {
+    transition: none !important;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background: var(--color-bg-block);
+    z-index: 9999999;
+}
+.app-header h1 {
+    font-weight: bold;
+    letter-spacing: .05em;
+    font-size: 11px;
+}
+.app-header button {
+    padding: 5px 10px;
+}
+.app-header button:hover svg {
+    fill: #fff;
+    stroke: #fff;
+}
+
+.app-content {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+.app-sidebar,
+.app-sidebar > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.app-sidebar {
+    background: var(--color-bg-block);
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 3px 0 5px var(--color-shadow-block);
+}
+.app-sidebar a {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    white-space: nowrap;
+    font-size: 11px;
+    width: 100%;
+    color: #ccc;
+    letter-spacing: 1px;
+    background: rgb(39, 40, 44);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+.app-sidebar a span {
+    overflow: hidden;
+    padding-left: 15px;
+    width: 100%;
+    color: inherit;
+    transition: .2s;
+}
+.app-sidebar a svg {
+    min-width: 16px;
+    min-height: 16px;
+    width: 16px;
+    height: 16px;
+    transition: .2s;
+}
+.app-sidebar a:hover {
+    color: #fff;
+    background: rgb(44, 45, 49);
+}
+.app-sidebar a:hover svg {
+    fill: #fff;
+}
+.app-sidebar a:active {
+    transform: scale(0.95);
+}
+.app-sidebar .active {
+    transform: scale(1.2);
+}
+.app-sidebar .active span {
+    color: #fff;
+}
+.app-sidebar .active svg {
+    fill: #008cff !important;
+    stroke: #008cff !important;
+    filter: drop-shadow(0 0 3px #008cff);
+}
+.app-sidebar .active:active {
+    transform: scale(1.15);
+}
+
+@keyframes show-sidebar {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.content {
+    padding: 15px 25px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* box-shadow: 3px 3px 5px rgba(0, 0, 0, .2) inset; */
+}
+
+::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #313236;
+    height: 30px;
+    background-clip: content-box;
+    border: 4px solid transparent;
+    border-radius: 25px;
+}
+::-webkit-scrollbar-corner,
+::-webkit-resizer,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-button {
+    display: none;
+}

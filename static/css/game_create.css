@@ -1,0 +1,102 @@
+:root {
+    --color-shadow-focus-input: rgba(0, 162, 255, .5);
+}
+
+form,
+#create-sys-req {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 25px;
+    background: var(--color-bg-block);
+    box-shadow: 0 3px 5px var(--color-shadow-block);
+    border-radius: 10px;
+}
+
+form > *,
+#create-sys-req,
+#create-sys-req > * {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+textarea {
+    width: 100%;
+    letter-spacing: .04em;
+    background: var(--color-bg-block);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    margin: 0;
+    color: #fff;
+    padding: .5em 1.5em;
+    resize: none;
+    min-height: 150px;
+    transition: .2s;
+}
+
+h1 {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center;
+    font-size: 16px;
+    margin: 0;
+}
+
+input,
+textarea {
+    background: rgba(80, 80, 80, .1) !important;
+}
+
+input:valid:required,
+input:valid:required + label,
+textarea:valid:required,
+#create-sys-req input:valid:required {
+    box-shadow: 0 3px 5px rgba(21, 255, 0, .5);
+}
+
+.check-input:invalid:required,
+.check-input:invalid:required + label,
+#create-sys-req .check-input:invalid,
+#create-sys-req .check-input:invalid:required {
+    box-shadow: 0 3px 5px rgba(220, 0, 0, .5);
+}
+
+textarea:focus,
+input:focus,
+label:hover {
+    box-shadow: 0 3px 5px var(--color-shadow-focus-input) !important;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    gap: 10px;
+    background: rgba(80, 80, 80, .1) !important;
+    cursor: pointer;
+    transition: .2s;
+}
+
+img {
+    pointer-events: none;
+}
+
+.content {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    max-width: 720px;
+    overflow: hidden;
+}
+
+.wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

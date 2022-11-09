@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if request.get_full_path == "/library/" %}
+        Библиотека
+    {% else %}
+        Game Store
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/store.css' %}">
+<link rel="stylesheet" href="{% static 'css/store_white_theme.css' %}">
+<script src="{% static 'js/store.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+{% if user_games|length == 0 and games|length == 0 and not search %}
+<div class="content">
+    <h1 style="width: 100%; text-align: center;">У вас ещё нет игр, но можно их купить у нас 😋 <a href="/">перейти в магазин</a></h1>
+</div>
+{% else %}
+<div class="content">
+    <div class="content-header">
+        <input type="search" id="search" name="search" placeholder="Поиск">
+    </div>
+    {% if search %}
+        <div class="content">
+            <h1 style="width: 100%; text-align: center;">Ничего не найдено!</h1>
+        </div>
+    {% else %}
+        <div class="card-container">
+            {% for game in games %}
+                <a href="/store/{{game.name}}/" class="card">
+                    <img src="/media/{{game.preview.name}}">
+                    <p>{{game.name}}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

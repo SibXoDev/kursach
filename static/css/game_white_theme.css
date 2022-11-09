@@ -1,0 +1,16 @@
+button {
+    color: #333;
+    background: rgba(255, 255, 255, .8);
+}
+button:hover {
+    color: #000;
+    background: #fff;
+}
+
+.release_date {
+    color: #fff;
+}
+
+.sys-req > div > p:first-child {
+    color: rgb(0, 0, 0);
+}

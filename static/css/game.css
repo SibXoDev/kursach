@@ -1,0 +1,97 @@
+h1 {
+    letter-spacing: .04em;
+    margin: 0 0 10px 0;
+}
+
+p {
+    white-space: pre-line;
+}
+
+.content > p,
+.sys-req {
+    color: #fff;
+    margin: 15px 0;
+    padding: 15px 25px;
+    border-radius: 10px;
+    background: var(--color-bg-block);
+    box-shadow: 0 3px 5px var(--color-shadow-block);
+}
+
+.description {
+    font-size: 18px;
+}
+
+.content {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    max-width: 1280px;
+    overflow: hidden;
+}
+
+.wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.release_date {
+    text-align: right;
+    margin-top: 5px;
+    font-size: 11px;
+    font-weight: normal;
+    color: rgba(255, 255, 255, .5)
+}
+
+.preview {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 3px 5px var(--color-shadow-block);
+}
+
+.preview img {
+    object-fit: contain;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.bt-container {
+    gap: 10px;
+}
+.bt-container button {
+    font-size: 16px;
+    padding: .8em 1.2em;
+}
+
+.sys-req {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.sys-req > h1 {
+    text-align: center;
+    font-size: 18px;
+    margin: 0;
+}
+.sys-req > div > p:first-child {
+    margin: 0;
+    color: #999;
+}
+.sys-req > div > p:last-child {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+#edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .4em 1em;
+    background: var(--color-bg-block);
+    border-radius: 10px;
+}
+#edit:hover {
+    box-shadow: 0 0 5px rgb(0, 140, 255);
+}

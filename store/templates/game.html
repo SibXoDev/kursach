@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% firstof game.name "Игра не найдена" %}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+<link rel="stylesheet" href="{% static 'css/game_white_theme.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if game.name %}
+    <div class="wrapper">
+        <div class="content">
+            <h1>{{ game.name }}</h1>
+            <div class="preview">
+                <img src="/media/{{ game.preview.name }}">
+            </div>
+            <div class="release_date">Дата выхода: {{ game.release_date|date:"d.m.Y" }}</div>
+            <div class="bt-container flex">
+                <button id="buy">{% if acquired %}Куплено{% else %}Купить ({{ game.price }} руб.){% endif %}</button>
+                {% if not acquired %}<button id="favorites">{% if favorites %}В избранном{% else %}В избранное{% endif %}</button>{% endif %}
+                {% if user.is_authenticated and user.is_superuser %}<a href="/game/edit/{{ game.id }}" id="edit">Редактировать</a>{% endif %}
+            </div>
+            <p class="description">{{ game.description }}</p>
+            <div class="sys-req">
+                <h1>Минимальные системные требования</h1>
+                {% for text in sys_req %}
+                <div>
+                    <p>{{ text.0 }}</p>
+                    <p>{{ text.1 }} {{ text.2 }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+        <script defer>
+            document.body.querySelectorAll(".bt-container button").forEach(bt => {
+                bt.onclick = function () {
+                    if (this.id != "buy" && this.id != "favorites") return false;
+                    if ((this.id == "buy" && "{{ acquired }}".toLowerCase() === "true")) return false;
+                    SXDAPI.description.hide();
+                    let data = new FormData();
+                    data.append(this.id, true);
+
+                    this.disabled = true;
+                    SXDAPI.connect("", "", {
+                        method: "POST",
+                        mode: "same-origin",
+                        credentials: "same-origin",
+                        cache: "default",
+                        headers: {
+                            "Accept": "application/json",
+                            "X-CSRFToken": csrftoken
+                        },
+                        body: data
+                    },
+                    (result) => {
+                        this.disabled = false;
+                        if (result.hasOwnProperty("add")) {
+                            if (this.id == "buy" && result.add) {
+                                this.onclick = null;
+                                this.textContent = "Куплено";
+                                SXDAPI.description.show({
+                                    textHTML: "Игра добавлена в вашу библиотеку!<br>Спасибо за покупку!",
+                                    color: "rgb(0, 220, 0)"
+                                });
+                                let btFavorites = document.body.querySelector(".bt-container #favorites");
+                                if (btFavorites) btFavorites.remove();
+                            } else if (this.id == "favorites") {
+                                if (result.add) {
+                                    this.textContent = "В избранном";
+                                    SXDAPI.description.show({
+                                        text: "Игра добавлена в избранное!",
+                                        color: "rgb(0, 220, 0)"
+                                    });
+                                } else {
+                                    this.textContent = "В избранное";
+                                    SXDAPI.description.show({
+                                        text: "Игра удалена из избранного!",
+                                        color: "rgb(0, 220, 0)"
+                                    });
+                                };
+                            };
+                        };
+                    },
+                    (error) => {
+                        this.disabled = false;
+                    }, true);
+                };
+            });
+        </script>
+    {% else %}
+        <script defer>
+            document.body.querySelectorAll(".bt-container button").forEach(bt => {
+                bt.onclick = () => {
+                    window.location.href = "/auth?next={{request.get_full_path}}";
+                };
+            });
+        </script>
+    {% endif %}
+{% endif %}
+{% endblock %}
