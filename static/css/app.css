@@ -3,6 +3,11 @@
     --color-shadow-block: rgba(0, 0, 0, .2);
 }
 
+.white-theme {
+    --color-bg-block: rgba(255, 255, 255, .2);
+    --color-shadow-block: rgba(0, 0, 0, .1);
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -135,7 +140,7 @@ input[type="checkbox"] + label:hover {
     border-bottom-right-radius: 10px;
     box-shadow: 3px 0 5px var(--color-shadow-block);
 }
-.app-sidebar a {
+.app-sidebar > div > * {
     display: flex;
     /* justify-content: center; */
     align-items: center;
@@ -148,28 +153,28 @@ input[type="checkbox"] + label:hover {
     padding: 10px 12px;
     border-radius: 10px;
 }
-.app-sidebar a span {
+.app-sidebar > div > * span {
     overflow: hidden;
     padding-left: 15px;
     width: 100%;
     color: inherit;
     transition: .2s;
 }
-.app-sidebar a svg {
+.app-sidebar > div > * svg {
     min-width: 16px;
     min-height: 16px;
     width: 16px;
     height: 16px;
     transition: .2s;
 }
-.app-sidebar a:hover {
+.app-sidebar > div > *:hover {
     color: #fff;
     background: rgb(44, 45, 49);
 }
-.app-sidebar a:hover svg {
+.app-sidebar > div > *:hover svg {
     fill: #fff;
 }
-.app-sidebar a:active {
+.app-sidebar > div > *:active {
     transform: scale(0.95);
 }
 .app-sidebar .active {
@@ -221,4 +226,80 @@ input[type="checkbox"] + label:hover {
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-button {
     display: none;
+}
+
+.white-theme {
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+}
+
+.white-theme svg {
+    fill: #222;
+    stroke: #222;
+}
+
+.white-theme input[type="text"] {
+    background: #1d1e22;
+}
+.white-theme input::placeholder {
+    color: #4a4b53;
+}
+.white-theme input[type="checkbox"] + label,
+.white-theme .indicator,
+.white-theme .indicator-correct,
+.white-theme .indicator-error,
+.white-theme .indicator-warning {
+    background: #1d1e22;
+    color: #ccc;
+}
+.white-theme .indicator {
+    border-color: #4a4b53;
+}
+.white-theme input[type="checkbox"]:checked + label,
+.white-theme .indicator-active {
+    color: #fff;
+    border-color: #007add;
+}
+.white-theme input[type="checkbox"] + label:hover {
+    color: #fff;
+    box-shadow: 0 2px 5px 1px #007add;
+}
+.white-theme .indicator-correct {
+    color: #fff;
+    border-color: #27d118;
+}
+.white-theme .indicator-warning {
+    color: #fff;
+    border-color: #ff7b00;
+}
+.white-theme .indicator-error {
+    color: #fff;
+    border-color: #dd3838;
+}
+
+.white-theme .app-sidebar > div > * {
+    background: rgba(255, 255, 255, .8) !important;
+}
+.white-theme .app-sidebar > div > * span {
+    color: #333;
+}
+.white-theme .app-sidebar > div > *:hover {
+    color: #fff;
+    background: #fff !important;
+}
+.white-theme .app-sidebar > div > *:hover span,
+.white-theme .app-sidebar .active span {
+    color: #000;
+}
+.white-theme .app-sidebar > div > *:hover svg {
+    fill: #000;
+}
+.white-theme .app-sidebar .active svg {
+    fill: #008cff !important;
+    filter: drop-shadow(0 0 3px rgb(0, 140, 255, .4));
+}
+
+.white-theme::-webkit-scrollbar-thumb,
+.white-theme *::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, .3);
 }

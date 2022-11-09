@@ -159,7 +159,7 @@ def view_game_create(request):
                     sys_req.delete()
             return JsonResponse({"add": False})
         return render(request, "game_create.html")
-    raise Http404
+    return redirect("/")
 
 def view_game_edit(request, game_id):
     if request.user.is_authenticated and request.user.is_superuser and game_id >= 0:

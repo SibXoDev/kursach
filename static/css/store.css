@@ -120,6 +120,37 @@
     margin: 0;
 }
 
+
+.white-theme input[type="search"] {
+    color: #000;
+    box-shadow: 0 3px 5px var(--color-shadow-block);
+    background: rgba(255, 255, 255, .4) !important;
+}
+.white-theme button {
+    color: #333;
+    background: rgba(255, 255, 255, .8);
+}
+.white-theme button:hover {
+    color: #000;
+    background: #fff;
+}
+
+.white-theme .tooltip::after {
+    background: rgb(38, 39, 43);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
+}
+
+.white-theme .card {
+    background: rgba(255, 255, 255, .2);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .1);
+}
+.white-theme .card p {
+    color: #fff;
+}
+.white-theme .card img {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .2);
+}
+
 @media screen and (min-width: 1360px) {
     .card-container {
         grid-template-columns: 20% 20% 20% 20% 20%;

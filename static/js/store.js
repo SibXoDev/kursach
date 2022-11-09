@@ -1,4 +1,4 @@
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector("#search");
     const searchButton = document.querySelector("#search-bt");
 

@@ -100,3 +100,21 @@ img {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+
+.white-theme button {
+    color: #333;
+    background: rgba(255, 255, 255, .8);
+}
+.white-theme button:hover {
+    color: #000;
+    background: #fff;
+}
+
+.white-theme .release_date {
+    color: #fff;
+}
+
+.white-theme .sys-req > div > p:first-child {
+    color: rgb(0, 0, 0);
+}
