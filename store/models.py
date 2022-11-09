@@ -33,16 +33,10 @@ class Game(models.Model):
     preview = models.ImageField(upload_to = "uploads/preview/", default = None)
     description = models.TextField(null=True, blank=True)
     release_date = models.DateField(default = datetime.date.today)
+    categories = models.ManyToManyField("Categories", related_name="categories", blank=True)
     sys_req = models.OneToOneField("SystemRequirements", on_delete = models.CASCADE)
-    tags = models.ManyToManyField("Tag", blank=True)
     media = models.ManyToManyField("Media", blank=True)
     date = models.DateTimeField(auto_now_add = True)
-
-    def __str__(self):
-        return self.name
-
-class Tag(models.Model):
-    name = models.CharField(max_length = 255, default = None)
 
     def __str__(self):
         return self.name
@@ -63,3 +57,16 @@ class SystemRequirements(models.Model):
 
     # def __str__(self):
     #     return self.game.name
+
+class Categories(models.Model):
+    name = models.CharField(max_length = 255)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name"], name="unique_Categories"
+            )
+        ]
+
+    def __str__(self):
+        return self.name

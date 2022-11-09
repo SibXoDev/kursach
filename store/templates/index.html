@@ -20,31 +20,44 @@
         <input type="search" id="search" name="search" placeholder="Поиск" autocomplete="off">
         <button id="search-bt">Поиск</button>
     </div>
+    <div class="categories">
+        <h1>Категории</h1>
+        <div>
+            <a href="?search={{ request.GET.search }}" {% if not request.GET.category %}class="active"{% endif %}>Все</a>
+            {% for category in categories %}
+                {% if category.id|stringformat:"s" != request.GET.category %}
+                    <a href="?search={{ request.GET.search }}&category={{ category.id }}">{{ category.name }}</a>
+                {% else %}
+                    <a href="?search={{ request.GET.search }}" class="active">{{ category.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
     {% if user_games|length == 0 and games|length == 0 %}
         <h1 style="width: 100%; text-align: center;">Ничего не найдено!</h1>
     {% else %}
         <div class="card-container">
             {% for game in favorites_games %}
-                <a href="/store/{{game.name}}/" class="card card--favorites">
+                <a href="/store/{{game.id}}/" class="card card--favorites">
                     <img src="/media/{{game.preview.name}}">
                     <p>{{game.name}}</p>
                 </a>
             {% endfor %}
             {% for game in games %}
                 {% if game not in favorites_games and game not in user_games %}
-                    <a href="/store/{{game.name}}/" class="card">
+                    <a href="/store/{{game.id}}/" class="card">
                         <img src="/media/{{game.preview.name}}">
                         <p>{{game.name}}</p>
                     </a>
                 {% endif %}
             {% endfor %}
             {% for game in user_games %}
-                <a href="/store/{{game.name}}/" class="card card--acquired">
+                <a href="/store/{{game.id}}/" class="card card--acquired">
                     <img src="/media/{{game.preview.name}}">
                     <p>{{game.name}}</p>
                 </a>
             {% endfor %}
         </div>
-        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

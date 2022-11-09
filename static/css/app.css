@@ -178,7 +178,7 @@ input[type="checkbox"] + label:hover {
     transform: scale(0.95);
 }
 .app-sidebar .active {
-    transform: scale(1.2);
+    transform: scale(1.15);
 }
 .app-sidebar .active span {
     color: #fff;
@@ -189,7 +189,7 @@ input[type="checkbox"] + label:hover {
     filter: drop-shadow(0 0 3px #008cff);
 }
 .app-sidebar .active:active {
-    transform: scale(1.15);
+    transform: scale(1.1);
 }
 
 @keyframes show-sidebar {

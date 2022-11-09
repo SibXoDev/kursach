@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from game_store.forms import CustomUserCreationForm
-from .forms import GameCreationForm, SysReqCreationForm
-from .models import Game, Tag, Media, SystemRequirements, Profile
+from .forms import *
+from .models import *
 
 sys_req_names = {
     "os": "ОС",
@@ -79,7 +79,8 @@ def view(request):
     context = {
         "games": Game.objects.all().order_by("name"),
         "user_games": [],
-        "favorites_games": []
+        "favorites_games": [],
+        "categories": Categories.objects.all().order_by("name"),
     }
 
     if request.user.is_authenticated:
@@ -87,17 +88,26 @@ def view(request):
         context["user_games"] = request.user.profile.games.all().order_by("name")
 
     if request.method == "GET":
+        category = request.GET.get("category", False)
+
+        if isinstance(category, str):
+            if category.isdigit():
+                context["games"] = context["games"].filter(categories__id = category)
+                if request.user.is_authenticated:
+                    context["favorites_games"] = context["favorites_games"].filter(categories__id = category)
+                    context["user_games"] = context["user_games"].filter(categories__id = category)
+
         if request.GET.get("search", False):
-            context["games"] = Game.objects.filter(name__iregex = fr'{request.GET["search"]}').order_by("name")
+            context["games"] = context["games"].filter(name__iregex = fr'{request.GET["search"]}')
             if request.user.is_authenticated:
-                context["favorites_games"] = request.user.profile.favorites.filter(name__iregex = fr'{request.GET["search"]}').order_by("name")
-                context["user_games"] = request.user.profile.games.filter(name__iregex = fr'{request.GET["search"]}').order_by("name")
+                context["favorites_games"] = context["favorites_games"].filter(name__iregex = fr'{request.GET["search"]}')
+                context["user_games"] = context["user_games"].filter(name__iregex = fr'{request.GET["search"]}')
 
     return render(request, "index.html", context)
 
 @csrf_protect
-def view_game(request, game_name):
-    game = get_if_exists(Game, name = game_name)
+def view_game(request, game_id):
+    game = get_if_exists(Game, id = game_id)
     context = {
         "game": game,
         "acquired": False,
@@ -132,13 +142,20 @@ def view_library(request):
     if request.user.is_authenticated:
         context = {
             "games": request.user.profile.games.all().order_by("name"),
-            "search": False
+            "search": False,
+            "categories": Categories.objects.all().order_by("name"),
         }
 
         if request.method == "GET":
+            category = request.GET.get("category", False)
+
+            if isinstance(category, str):
+                if category.isdigit():
+                    context["games"] = context["games"].filter(categories__id = category)
+
             if request.GET.get("search", False):
                 context["search"] = True
-                context["games"] = Game.objects.filter(name__iregex = fr'{request.GET["search"]}').order_by("name")
+                context["games"] = context["games"].filter(name__iregex = fr'{request.GET["search"]}')
 
         return render(request, "library.html", context)
     return redirect("/auth?next=/library/")
@@ -147,18 +164,23 @@ def view_game_create(request):
     if request.user.is_authenticated and request.user.is_superuser:
         if request.method == "POST":
             form_sys_req = SysReqCreationForm(request.POST)
+
             if form_sys_req.is_valid():
                 sys_req = form_sys_req.save()
+
                 data = request.POST.copy()
                 data["sys_req"] = sys_req
+
                 form_game = GameCreationForm(data, request.FILES)
+
                 if form_game.is_valid():
                     form_game.save()
                     return JsonResponse({"add": True})
                 else:
                     sys_req.delete()
+                    
             return JsonResponse({"add": False})
-        return render(request, "game_create.html")
+        return render(request, "game_create.html", {"categories": Categories.objects.all().order_by("name")})
     return redirect("/")
 
 def view_game_edit(request, game_id):
@@ -184,8 +206,19 @@ def view_game_edit(request, game_id):
 
                 return JsonResponse({"edit": True, "img_url": Game.objects.get(pk = game_id).preview.url})
             return JsonResponse({"edit": False})
-        return render(request, "game_edit.html", {"game": instance_game, "sys_req": instance_sys_req})
-    raise Http404
+        return render(request, "game_edit.html", {"game": instance_game, "sys_req": instance_sys_req, "categories_": instance_game.categories.all(), "categories": Categories.objects.all().order_by("name")})
+    return redirect("/")
+
+def view_category(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        if request.method == "POST":
+            form = CategoriesForm(request.POST)
+            if form.is_valid():
+                category = form.save()
+                return JsonResponse({"add": True})
+            return JsonResponse({"add": False})
+        return render(request, "category_create.html")
+    return redirect("/")
 
 def get_if_exists(model, **kwargs):
     try:

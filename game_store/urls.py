@@ -22,11 +22,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', store_views.view),
-    path('store/<str:game_name>/', store_views.view_game),
+    path('store/<str:game_id>/', store_views.view_game),
     path('auth/', store_views.view_auth),
     path('register/', store_views.view_register),
     path('logout/', store_views.view_logout),
     path('library/', store_views.view_library),
+    path('category/create/', store_views.view_category),
     path('game/create/', store_views.view_game_create),
     path('game/edit/<int:game_id>/', store_views.view_game_edit),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

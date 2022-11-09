@@ -3,7 +3,8 @@
 }
 
 form,
-#create-sys-req {
+#create-sys-req,
+#add-categories {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -15,8 +16,15 @@ form,
 
 form > *,
 #create-sys-req,
-#create-sys-req > * {
+#create-sys-req > *,
+#add-categories {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+form input,
+form textarea,
+form label {
+    font-size: 14px !important;
 }
 
 textarea {
@@ -102,6 +110,9 @@ img {
 }
 
 
+.white-theme form input::placeholder {
+    color: rgba(0, 0, 0, 0.1) !important;
+}
 .white-theme button {
     color: #333;
     background: rgba(255, 255, 255, .8);

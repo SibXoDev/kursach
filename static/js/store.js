@@ -3,17 +3,18 @@ window.addEventListener("DOMContentLoaded", () => {
     const searchButton = document.querySelector("#search-bt");
 
     if (searchInput) {
-        searchInput.value = new URLSearchParams(window.location.search).get("search") || "";
+        const getParam = new URLSearchParams(window.location.search);
+        searchInput.value = getParam.get("search") || "";
         searchInput.onkeyup = (e) => {
             if (e.key === "Enter") {
                 searchInput.value = searchInput.value.trim();
-                window.location.search = `search=${searchInput.value}`;
+                window.location.search = `search=${searchInput.value}&category=${getParam.get("category") || ""}`;
             };
         };
         if (searchButton) {
             searchButton.onclick = () => {
                 searchInput.value = searchInput.value.trim();
-                window.location.search = `search=${searchInput.value}`;
+                window.location.search = `search=${searchInput.value}&category=${getParam.get("category") || ""}`;
             };
         };
     };

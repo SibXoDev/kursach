@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Game, Tag, Media, SystemRequirements, Profile
+from .models import *
 
 admin.site.register(Profile)
 admin.site.register(Game)
-admin.site.register(Tag)
 admin.site.register(Media)
 admin.site.register(SystemRequirements)
+admin.site.register(Categories)

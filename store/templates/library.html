@@ -22,7 +22,21 @@
 {% else %}
 <div class="content">
     <div class="content-header">
-        <input type="search" id="search" name="search" placeholder="Поиск">
+        <input type="search" id="search" name="search" placeholder="Поиск"  autocomplete="off">
+        <button id="search-bt">Поиск</button>
+    </div>
+    <div class="categories">
+        <h1>Категории</h1>
+        <div>
+            <a href="?search={{ request.GET.search }}" {% if not request.GET.category %}class="active"{% endif %}>Все</a>
+            {% for category in categories %}
+                {% if category.id|stringformat:"s" != request.GET.category %}
+                    <a href="?search={{ request.GET.search }}&category={{ category.id }}">{{ category.name }}</a>
+                {% else %}
+                    <a href="?search={{ request.GET.search }}" class="active">{{ category.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
     {% if search %}
         <div class="content">
@@ -31,7 +45,7 @@
     {% else %}
         <div class="card-container">
             {% for game in games %}
-                <a href="/store/{{game.name}}/" class="card">
+                <a href="/store/{{game.id}}/" class="card">
                     <img src="/media/{{game.preview.name}}">
                     <p>{{game.name}}</p>
                 </a>
