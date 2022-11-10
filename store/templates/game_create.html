@@ -94,8 +94,11 @@
                         inputs.forEach(input => {
                             if (input.type !== "hidden") {
                                 input.classList.remove("check-input");
-                                input.value = "";
-                                input.checked = false;
+                                if (input.type === "checkbox") {
+                                    input.checked = false;
+                                } else {
+                                    input.value = "";
+                                };
                             };
                         });
 
