@@ -46,7 +46,7 @@
         <div class="card-container">
             {% for game in games %}
                 <a href="/store/{{game.id}}/" class="card">
-                    <img src="/media/{{game.preview.name}}">
+                    <img loading="lazy" decoding="async" src="/media/{{game.preview.name}}">
                     <p>{{game.name}}</p>
                 </a>
             {% endfor %}

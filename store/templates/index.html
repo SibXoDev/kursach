@@ -39,21 +39,21 @@
         <div class="card-container">
             {% for game in favorites_games %}
                 <a href="/store/{{game.id}}/" class="card card--favorites">
-                    <img src="/media/{{game.preview.name}}">
+                    <img loading="lazy" decoding="async" src="/media/{{game.preview.name}}">
                     <p>{{game.name}}</p>
                 </a>
             {% endfor %}
             {% for game in games %}
                 {% if game not in favorites_games and game not in user_games %}
                     <a href="/store/{{game.id}}/" class="card">
-                        <img src="/media/{{game.preview.name}}">
+                        <img loading="lazy" decoding="async" src="/media/{{game.preview.name}}">
                         <p>{{game.name}}</p>
                     </a>
                 {% endif %}
             {% endfor %}
             {% for game in user_games %}
                 <a href="/store/{{game.id}}/" class="card card--acquired">
-                    <img src="/media/{{game.preview.name}}">
+                    <img loading="lazy" decoding="async" src="/media/{{game.preview.name}}">
                     <p>{{game.name}}</p>
                 </a>
             {% endfor %}
