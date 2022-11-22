@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Изранное
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/store.css' %}">
+<script src="{% static 'js/store.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <input type="search" id="search" name="search" placeholder="Поиск" autocomplete="off">
+        <button id="search-bt">Поиск</button>
+    </div>
+    <div class="categories">
+        <h1>Категории</h1>
+        <div>
+            <a href="?search={{ request.GET.search }}" {% if not request.GET.category %}class="active"{% endif %}>Все</a>
+            {% for category in categories %}
+                {% if category.id|stringformat:"s" != request.GET.category %}
+                    <a href="?search={{ request.GET.search }}&category={{ category.id }}">{{ category.name }}</a>
+                {% else %}
+                    <a href="?search={{ request.GET.search }}" class="active">{{ category.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% if user_games|length == 0 and games|length == 0 or favorites_games|length == 0 %}
+        <h1 style="width: 100%; text-align: center;">Ничего не найдено!</h1>
+    {% else %}
+        <div class="card-container">
+            {% for game in favorites_games %}
+                {% if game not in user_games %}
+                    <a href="/store/{{game.id}}/" class="card">
+                        <img loading="lazy" decoding="async" src="/media/{{game.preview.name}}">
+                        <p>{{game.name}}</p>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

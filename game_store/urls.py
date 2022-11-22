@@ -27,6 +27,7 @@ urlpatterns = [
     path('register/', store_views.view_register),
     path('logout/', store_views.view_logout),
     path('library/', store_views.view_library),
+    path('favorites/', store_views.favorites_view),
     path('category/create/', store_views.view_category),
     path('game/create/', store_views.view_game_create),
     path('game/edit/<int:game_id>/', store_views.view_game_edit),

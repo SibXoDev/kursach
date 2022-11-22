@@ -105,6 +105,33 @@ def view(request):
 
     return render(request, "index.html", context)
 
+def favorites_view(request):
+    context = {
+        "user_games": [],
+        "favorites_games": [],
+        "categories": Categories.objects.all().order_by("name"),
+    }
+
+    if request.user.is_authenticated:
+        context["favorites_games"] = request.user.profile.favorites.all().order_by("name")
+        context["user_games"] = request.user.profile.games.all().order_by("name")
+
+    if request.method == "GET":
+        category = request.GET.get("category", False)
+
+        if isinstance(category, str):
+            if category.isdigit():
+                if request.user.is_authenticated:
+                    context["favorites_games"] = context["favorites_games"].filter(categories__id = category)
+                    context["user_games"] = context["user_games"].filter(categories__id = category)
+
+        if request.GET.get("search", False):
+            if request.user.is_authenticated:
+                context["favorites_games"] = context["favorites_games"].filter(name__iregex = fr'{request.GET["search"]}')
+                context["user_games"] = context["user_games"].filter(name__iregex = fr'{request.GET["search"]}')
+
+    return render(request, "favorites.html", context)
+
 @csrf_protect
 def view_game(request, game_id):
     game = get_if_exists(Game, id = game_id)
