@@ -46,7 +46,11 @@ window.addEventListener("DOMContentLoaded", () => {
     checkTheme();
     setTimeout(() => document.body.classList.remove("load"), 20);
 
-    document.querySelector("#change-theme").onclick = () => {
+    const btChangeTheme = document.querySelector("#change-theme");
+
+    if (!btChangeTheme) return;
+
+    btChangeTheme.onclick = () => {
         theme = !theme;
         checkTheme();
     };

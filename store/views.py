@@ -19,6 +19,13 @@ sys_req_names = {
     "gpu": "Видеокарта"
 }
 
+rus_game_fields = {
+    "id": "ID",
+    "name": "Название",
+    "description": "Описание",
+    "release_date": "Дата выхода",
+}
+
 sys_req_measure = {
     "ram": "ГБ",
     "disk_space": "ГБ",
@@ -208,6 +215,11 @@ def view_game_create(request):
                     
             return JsonResponse({"add": False})
         return render(request, "game_create.html", {"categories": Categories.objects.all().order_by("name")})
+    return redirect("/")
+
+def view_table(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        return render(request, "table.html", {"games": Game.objects.all().order_by("name"), "fields": [[rus_game_fields[field.name], field.name] for field in Game._meta.get_fields() if field.name in rus_game_fields], "fields_sys_req": [[sys_req_names[field.name], field.name] for field in SystemRequirements._meta.get_fields() if field.name in sys_req_names]})
     return redirect("/")
 
 def view_game_edit(request, game_id):

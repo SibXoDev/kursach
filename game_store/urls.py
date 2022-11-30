@@ -31,4 +31,5 @@ urlpatterns = [
     path('category/create/', store_views.view_category),
     path('game/create/', store_views.view_game_create),
     path('game/edit/<int:game_id>/', store_views.view_game_edit),
+    path('uploading_data/', store_views.view_table),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

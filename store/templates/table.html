@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Store | Выгрузка товаров</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/SXDAPI.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <script defer src="{% static 'js/SXDAPI.min.js' %}"></script>
+    <script defer src="{% static 'js/main.js' %}"></script>
+    <script defer src="{% static 'js/xlsx.min.js' %}"></script>
+</head>
+<body class="load">
+    <div class="app-content">
+        <table id="xls" style="display: none;">
+            <thead>
+                {% for field in fields %}
+                    <th>{{ field.0 }}</th>
+                {% endfor %}
+                {% for field in fields_sys_req %}
+                    <th>{{ field.0 }}</th>
+                {% endfor %}
+            </thead>
+            <tbody>
+                {% for game in games %}
+                    <tr>
+                        <td>{{ game.id }}</td>
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.description }}</td>
+                        <td>{{ game.release_date|date:"d.m.Y" }}</td>
+                        <td>{{ game.sys_req.os }}</td>
+                        <td>{{ game.sys_req.cpu }}</td>
+                        <td>{{ game.sys_req.ram }} ГБ</td>
+                        <td>{{ game.sys_req.gpu }}</td>
+                        <td>{{ game.sys_req.disk_space }} ГБ</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const wb = XLSX.utils.table_to_book(document.getElementById('xls'), { sheet: "Товары" });
+            XLSX.writeFile(wb, 'SXDGamesProducts.xlsx');
+            window.location = "/";
+        });
+    </script>
+</body>
+</html>

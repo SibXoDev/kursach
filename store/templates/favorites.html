@@ -29,7 +29,7 @@
             {% endfor %}
         </div>
     </div>
-    {% if user_games|length == 0 and games|length == 0 or favorites_games|length == 0 %}
+    {% if user_games|length == 0 and favorites_games|length == 0 %}
         <h1 style="width: 100%; text-align: center;">Ничего не найдено!</h1>
     {% else %}
         <div class="card-container">
